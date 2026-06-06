@@ -35,7 +35,7 @@ export default function Home() {
   const helper = useMemo(() => {
     if (error) return "The backend returned an error. Check env vars and server logs.";
     if (isBusy) return "Reading grounded sources and tools...";
-    return "Ask about Sankalp's resume, GitHub work, fit, or interview availability.";
+    return "Ask about Sankalp's work, GitHub projects, fit, or interview availability.";
   }, [error, isBusy]);
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -63,8 +63,8 @@ export default function Home() {
               Sankalp Shukla AI Representative
             </h1>
             <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--muted)]">
-              A grounded chat and voice backend that answers from Sankalp&apos;s
-              resume, GitHub repositories, and real calendar availability.
+              A concise chat and voice backend for recruiters to review Sankalp&apos;s
+              work, projects, technical fit, and real interview availability.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-2 text-sm md:w-[360px]">
@@ -96,16 +96,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          <div className="border border-[var(--line)] bg-[var(--panel)] p-4 text-sm leading-6 text-[var(--muted)]">
-            <h2 className="mb-2 font-semibold text-[var(--foreground)]">
-              Submission checklist
-            </h2>
-            <p>
-              Run ingestion, deploy to Vercel, connect Vapi/Twilio, verify
-              Google Calendar booking, generate the eval PDF, then record Loom.
-            </p>
-          </div>
         </aside>
 
         <section className="flex min-h-[640px] flex-col border border-[var(--line)] bg-[var(--panel)]">
@@ -123,9 +113,8 @@ export default function Home() {
                 <Bot className="mx-auto mb-4 text-[var(--accent)]" size={42} />
                 <h2 className="text-2xl font-semibold">Ask like a hiring panel.</h2>
                 <p className="mt-3 leading-7 text-[var(--muted)]">
-                  The assistant is designed to stay honest: it cites retrieved
-                  evidence, uses tools for scheduling, and says when the corpus
-                  does not support an answer.
+                  The assistant gives short, recruiter-ready answers and uses
+                  calendar tools when interview scheduling is requested.
                 </p>
               </div>
             ) : (

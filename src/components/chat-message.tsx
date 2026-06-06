@@ -12,7 +12,9 @@ export function ChatMessage({ message }: { message: UIMessage }) {
     .join("")
     .trim();
 
-  if (!text) return null;
+  const visibleText = isUser ? text : stripSourceLabels(text);
+
+  if (!visibleText) return null;
 
   return (
     <article className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"}`}>
@@ -28,7 +30,7 @@ export function ChatMessage({ message }: { message: UIMessage }) {
             : "border-[var(--line)] bg-white text-[var(--foreground)]"
         }`}
       >
-        {text}
+        {visibleText}
       </div>
       {isUser && (
         <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center border border-[var(--accent)] bg-[var(--accent)] text-white">
@@ -37,4 +39,11 @@ export function ChatMessage({ message }: { message: UIMessage }) {
       )}
     </article>
   );
+}
+
+function stripSourceLabels(text: string) {
+  return text
+    .replace(/\s*\[(?:Resume|Portfolio|GitHub[^\]]*)\]/gi, "")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
 }

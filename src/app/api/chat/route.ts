@@ -14,6 +14,7 @@ import { availableChatModels, hasChatModel } from "@/lib/model-provider";
 import { contextBlock, personaSystemPrompt } from "@/lib/persona";
 import { recruiterAnswer } from "@/lib/recruiter-answers";
 import { retrieveProfile } from "@/lib/retrieval";
+import { schedulingAnswer } from "@/lib/scheduling-assistant";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -35,6 +36,11 @@ export async function POST(request: Request) {
   const body = await request.json();
   const messages = (body.messages ?? []) as UIMessage[];
   const lastUserText = extractLastUserText(messages);
+  const scheduleAnswer = await schedulingAnswer(toTextMessages(messages));
+  if (scheduleAnswer) {
+    return textResponse(messages, scheduleAnswer, "schedule-answer");
+  }
+
   const guardedAnswer = recruiterAnswer(lastUserText);
 
   if (guardedAnswer) {
@@ -56,7 +62,7 @@ export async function POST(request: Request) {
 Retrieved context for this turn:
 ${contextBlock(retrieval.snippets)}
 
-When you use evidence, cite it inline like [Resume] or [GitHub: repo/path].
+Use evidence internally, but do not show source labels such as [Resume], [Portfolio], or [GitHub] in the final answer.
 ${needsGithubEvidence && !hasGithubEvidence ? "The user asked about GitHub, but retrieved context has no GitHub source. Do not infer repository names from resume projects. Say GitHub evidence is not available until GITHUB_TOKEN is configured or repository ingestion succeeds." : ""}`;
 
   let answer = "";
@@ -89,7 +95,7 @@ ${needsGithubEvidence && !hasGithubEvidence ? "The user asked about GitHub, but 
           })
         }
       });
-      answer = result.text;
+      answer = stripVisibleSourceLabels(result.text);
       break;
     } catch {
       answer = "";
@@ -123,4 +129,21 @@ function extractLastUserText(messages: UIMessage[]) {
       .join(" ")
       .trim() ?? ""
   );
+}
+
+function toTextMessages(messages: UIMessage[]) {
+  return messages.map((message) => ({
+    role: message.role,
+    text: message.parts
+      ?.map((part) => (part.type === "text" ? part.text : ""))
+      .join(" ")
+      .trim()
+  }));
+}
+
+function stripVisibleSourceLabels(text: string) {
+  return text
+    .replace(/\s*\[(?:Resume|Portfolio|GitHub[^\]]*)\]/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
