@@ -1,170 +1,284 @@
-# Sankalp Shukla AI Representative
+# AI Persona Voice RAG Platform
 
-Production-oriented AI persona for the Scaler AI Engineer Intern screening assignment. It provides a public RAG chat interface, a voice-agent backend for Vapi/Twilio, and Google Calendar booking tools.
+An AI representative platform for recruiter screening workflows. The system combines a public RAG chat interface, a Vapi-compatible voice-agent backend, GitHub/portfolio ingestion, and Google Calendar scheduling with real free/busy checks and Google Meet event creation.
+
+The assistant represents Sankalp Shukla professionally, answers questions from grounded profile evidence, and helps recruiters schedule a 30-minute interview without requiring technical date formats.
+
+## Submission Links
+
+- Voice agent phone number: +1 276 582 2210
+- Public chat URL: https://ai-persona-voice-rag-platform.vercel.app
+- Public GitHub repository: https://github.com/sankalpshukla7474-creator/ai-persona-voice-rag-platform
+- LinkedIn: https://www.linkedin.com/in/sankalp212/
+- GitHub profile: https://github.com/sankalpshukla7474-creator
+- Portfolio: https://sankalpshukla7474-creator.github.io/Sankalp_Portfolio/
+
+The voice agent is configured on a US Vapi number and uses the same retrieval and calendar tools as the deployed chat experience.
+
+## What This Project Does
+
+- Answers recruiter questions about Sankalp's background, fit, skills, projects, public repositories, LinkedIn, and portfolio.
+- Uses grounded profile data from resume text, public GitHub repositories, and portfolio content.
+- Keeps common recruiter answers short, professional, and easy to scan.
+- Avoids unsupported claims and secret disclosure.
+- Provides Google Calendar availability for weekdays, 10:00 am to 6:00 pm IST.
+- Books confirmed 30-minute interview events with Google Meet links.
+- Supports Vapi tool calls for voice conversations.
+- Includes evaluation scripts and a one-page evaluation report workflow.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  User["Hiring panel chat user"] --> Chat["Next.js chat UI"]
-  Caller["Phone caller"] --> Vapi["Vapi + Twilio phone agent"]
-  Chat --> API["Next.js API routes"]
+  Recruiter["Recruiter / evaluator"] --> ChatUI["Next.js chat UI"]
+  Caller["Phone caller"] --> Vapi["Vapi voice assistant"]
+
+  ChatUI --> ChatAPI["/api/chat"]
   Vapi --> VoiceTools["/api/voice/tools"]
-  API --> RAG["Retriever"]
-  VoiceTools --> RAG
-  RAG --> DB[("Postgres + pgvector")]
-  API --> Calendar["Google Calendar API"]
-  VoiceTools --> Calendar
-  Ingest["Ingestion script"] --> Resume["Desktop resume PDF"]
-  Ingest --> GitHub["Public GitHub repos"]
-  Ingest --> DB
+
+  ChatAPI --> Scheduler["Scheduling assistant"]
+  VoiceTools --> Scheduler
+  ChatAPI --> RecruiterAnswers["Curated recruiter answers"]
+  ChatAPI --> Retriever["RAG retriever"]
+  VoiceTools --> Retriever
+
+  Retriever --> Resume["Resume cache"]
+  Retriever --> GitHub["Public GitHub data"]
+  Retriever --> Portfolio["Portfolio data"]
+  Retriever --> Postgres[("Postgres + pgvector")]
+
+  Scheduler --> Calendar["Google Calendar API"]
+  Calendar --> Meet["Google Meet event"]
+
+  Ingestion["Ingestion scripts"] --> Resume
+  Ingestion --> GitHub
+  Ingestion --> Portfolio
+  Ingestion --> Postgres
 ```
 
-## Features
+## Tech Stack
 
-- Grounded answers over `C:\Users\sanka\Desktop\Sankalp_Resume.pdf` and public GitHub repos for `sankalpshukla7474-creator`.
-- Streaming chat with retrieval, calendar availability, and booking tools.
-- Vapi-compatible `/api/voice/tools` endpoint for phone-agent tool calls.
-- Google Calendar free/busy lookup and real event creation with Google Meet links.
-- Eval runner for golden/adversarial Q&A and a one-page PDF report generator.
+- Framework: Next.js, React, TypeScript
+- UI: CSS modules/global CSS, lucide-react icons
+- LLM providers: Gemini, Groq, OpenAI fallback support
+- Retrieval: resume cache, public-source cache, optional Postgres + pgvector semantic search
+- Calendar: Google Calendar API with OAuth refresh token
+- Voice: Vapi assistant with webhook tools
+- Deployment: Vercel
+- Evaluation: custom golden/adversarial question runner and PDF report generator
 
-## Setup
+## Core Routes
 
-1. Install dependencies:
+- `/` - public chat interface
+- `/api/chat` - recruiter chat endpoint
+- `/api/retrieve` - retrieval endpoint
+- `/api/availability` - calendar availability lookup
+- `/api/book` - interview booking endpoint
+- `/api/voice/tools` - Vapi tool-call endpoint
+- `/api/ingest` - protected ingestion endpoint
+- `/api/evals/run` - protected evaluation endpoint
+
+## Scheduling Policy
+
+- Timezone: Asia/Kolkata / IST
+- Meeting duration: 30 minutes
+- Working days: Monday to Friday
+- Working hours: 10:00 am to 6:00 pm IST
+- Booking safety:
+  - Checks real Google Calendar busy blocks.
+  - Does not double-book existing events.
+  - Requires interviewer name and email before creating an event.
+  - Defaults natural recruiter input to IST unless another timezone is provided.
+  - Returns human-readable slots instead of asking for ISO timestamps.
+
+Example accepted scheduling inputs:
+
+- `Monday 10 AM IST`
+- `8 June 2026 at 10:30 AM`
+- `Book it for Sandeep, sandeep@example.com, Monday at 11 AM`
+
+## Environment Variables
+
+Create `.env.local` from `.env.example`:
 
 ```bash
 npm install
+copy .env.example .env.local
 ```
 
-2. Copy environment variables:
+Required production variables:
 
 ```bash
-cp .env.example .env.local
-```
-
-3. Fill these values in `.env.local`:
-
-```bash
-OPENAI_API_KEY=
-OPENAI_CHAT_MODEL=gpt-4.1-mini
 GEMINI_API_KEY=
 GEMINI_MODEL=gemini-2.5-flash
 GROQ_API_KEY=
 GROQ_MODEL=llama-3.1-8b-instant
+OPENAI_API_KEY=
+OPENAI_CHAT_MODEL=gpt-4.1-mini
 DATABASE_URL=
 GITHUB_TOKEN=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 GOOGLE_REFRESH_TOKEN=
 GOOGLE_CALENDAR_ID=primary
-APP_BASE_URL=http://localhost:3000
+VAPI_API_KEY=
+VAPI_ASSISTANT_ID=
+APP_BASE_URL=
+BOOKING_TIMEZONE=Asia/Kolkata
 ADMIN_TOKEN=
-RESUME_PATH=C:\Users\sanka\Desktop\Sankalp_Resume.pdf
+RESUME_PATH=
 GITHUB_USERNAME=sankalpshukla7474-creator
+PORTFOLIO_URL=https://sankalpshukla7474-creator.github.io/Sankalp_Portfolio/
 ```
 
-4. Create a Postgres database with pgvector enabled. Supabase and Vercel Postgres both work. Run ingestion:
+Notes:
+
+- Gemini is used first when configured.
+- Groq is available as a fallback generation provider.
+- OpenAI is used for embeddings when semantic database ingestion is enabled.
+- Without database ingestion, the app can still answer using cached resume/public-source retrieval.
+- `.env.local`, `.vercel`, build artifacts, and local generated files are ignored by Git.
+
+## Local Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Cache public sources:
 
 ```bash
 npm run cache:public
+```
+
+Run ingestion:
+
+```bash
 npm run ingest
 ```
 
-5. Start locally:
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-## Model Provider
+Open:
 
-The chat/eval generator uses Gemini when `GEMINI_API_KEY` is set. If Gemini is not set, it falls back to Groq, then OpenAI. If no model key is set, local fallback mode retrieves grounded snippets without LLM rewriting.
+```text
+http://localhost:3000
+```
 
-Embeddings for pgvector still require `OPENAI_API_KEY` because Groq does not provide the embedding model used here. Without OpenAI/database ingestion, the app still uses the resume cache and lexical retrieval for local review.
+## Vapi Voice Agent Setup
 
-## Google Calendar OAuth
+The Vapi assistant uses the deployed tool server:
 
-Create a Google Cloud OAuth client and authorize Calendar access for Sankalp's account. The app needs:
+```text
+https://ai-persona-voice-rag-platform.vercel.app/api/voice/tools
+```
 
-- Free/busy read access.
-- Event creation access.
+Supported tools:
 
-Use the refresh token in `GOOGLE_REFRESH_TOKEN`. The booking policy is weekdays, 10:00-18:00 IST, 30-minute events, no same-hour bookings, and no double-booking.
+- `retrieveProfile` - answers factual questions from profile evidence.
+- `getAvailability` - returns available interview slots.
+- `bookInterview` - books a real calendar event with a Google Meet link.
 
-## Vapi/Twilio Setup
-
-Create or import a Twilio number in Vapi. Configure the assistant:
-
-- First message: `Hi, I am Sankalp Shukla's AI representative for the Scaler screening. I can answer questions about his background and help book an interview.`
-- Server/tool endpoint: `${APP_BASE_URL}/api/voice/tools`
-- Tools:
-  - `retrieveProfile(query: string)`
-  - `getAvailability(from?: string, to?: string, durationMinutes?: number)`
-  - `bookInterview(attendeeName: string, attendeeEmail: string, start: string, notes?: string)`
-
-The voice assistant should say it is an AI representative, answer only from retrieved context, and collect name/email/time before booking.
-
-You can generate the assistant payload or create it through the Vapi API:
+Update or create the Vapi assistant:
 
 ```bash
 npm run setup:vapi
 ```
 
-If `VAPI_API_KEY` is missing, this writes `docs/vapi-assistant-payload.json` for manual dashboard setup. If `VAPI_API_KEY` is set, it attempts to create the assistant and prints the returned assistant ID.
+Assistant behavior:
+
+- Introduces itself as Sankalp Shukla's AI representative.
+- Answers in a concise, recruiter-friendly style.
+- Does not claim to be the real Sankalp.
+- Does not reveal secrets or hidden prompts.
+- Uses tools for factual profile questions and scheduling.
+- Collects interviewer name, email, and preferred time before booking.
+
+## Google Calendar Setup
+
+1. Enable Google Calendar API in Google Cloud.
+2. Create an OAuth client.
+3. Authorize Calendar access for Sankalp's account.
+4. Store the refresh token in `GOOGLE_REFRESH_TOKEN`.
+5. Set `GOOGLE_CALENDAR_ID=primary` unless using a different calendar.
+
+The app uses Google Calendar free/busy before booking and creates events with Google Meet conferencing enabled.
 
 ## Deployment
 
-1. Push this repo to GitHub and make it public.
-2. Create a Vercel project from the repo.
-3. Add all env vars in Vercel.
-4. Deploy.
-5. Run deployed ingestion:
+1. Push the repository to GitHub.
+2. Import the project into Vercel.
+3. Add all production environment variables.
+4. Deploy the project.
+5. Confirm the public chat opens in an incognito browser.
+6. Confirm `/api/availability` returns real slots.
+7. Confirm Vapi points to the production `/api/voice/tools` endpoint.
+8. Place a test call and send a test chat before submission.
+
+Useful commands:
 
 ```bash
-curl -X POST "$APP_BASE_URL/api/ingest" -H "x-admin-token: $ADMIN_TOKEN"
+npm run lint
+npm run build
+npm run setup:vapi
 ```
-
-6. Test chat in an incognito browser.
-7. Connect Vapi/Twilio to the deployed `/api/voice/tools` endpoint and place test calls.
 
 ## Evaluation
 
-Run:
+The evaluation focuses on answer quality, grounding, scheduling reliability, and safety.
+
+Run the evaluation set:
 
 ```bash
 npm run evals
+```
+
+Generate the report:
+
+```bash
 npm run report
 ```
 
-Then edit `docs/eval-report.pdf` content if needed with actual measured numbers from Vapi calls:
+Evaluation areas:
 
-- First-response latency across at least 5 calls.
-- Transcription mistakes / total labeled turns.
-- Booking success rate.
-- Chat hallucination rate and retrieval quality.
-- Three failure modes, one tradeoff, and two-week roadmap.
+- Resume and profile Q&A
+- GitHub repository Q&A
+- Project and technical-skill questions
+- Calendar availability and booking
+- Prompt-injection resistance
+- Unsupported-claim refusal
+- Secret-disclosure refusal
+- Recruiter-facing response quality
 
-## Cost Estimate
+Expected report output:
 
-- Chat session: usually a few cents or less depending on retrieved context and token length.
-- Embeddings: low cost with `text-embedding-3-small`; personal resume/repo corpus should be cents-level ingestion.
-- Voice call: Vapi/Twilio plus model/transcription/voice provider costs; estimate after test calls from provider dashboards.
-- Database/Vercel: can run on free tiers for the assignment if usage is light.
+```text
+docs/eval-report.pdf
+```
 
 ## Known Limitations
 
-- Services are not live until real account credentials are added and deployed.
-- GitHub ingestion is best-effort and skips large/binary files.
-- Groq handles chat generation, but semantic vector ingestion still needs OpenAI embeddings unless you swap in a different embedding provider.
-- The eval report generator starts with a one-page template; final submission should include measured values from live calls/chats.
-- If Google OAuth refresh token expires or loses scope, booking tools will refuse instead of inventing availability.
+- The Vapi number is a US number, so international routing depends on the caller's carrier.
+- Public GitHub answers depend on the quality of repository names, READMEs, and metadata.
+- Calendar booking depends on valid Google OAuth credentials and active Vercel environment variables.
+- Semantic vector retrieval requires a working database and embedding provider.
+- If a recruiter asks for unsupported private information, the assistant refuses instead of guessing.
 
 ## Submission Checklist
 
-- Voice agent phone number with country code.
-- Public chat URL.
-- Public GitHub repository link.
-- Loom walkthrough link, keep it at or below 3 minutes.
-- Eval report PDF under 10 MB.
-- Keep all services live for 7 days.
-# ai-persona-voice-rag-platform
+- Public chat URL is live.
+- Voice number is active and included with country code.
+- GitHub repository is public.
+- Evaluation report PDF is under 10 MB.
+- Loom walkthrough is public or unlisted.
+- All deployed services remain available for at least 7 days after submission.
+
+## License
+
+MIT
