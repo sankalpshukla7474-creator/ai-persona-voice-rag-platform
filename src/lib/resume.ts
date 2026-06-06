@@ -1,6 +1,5 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { PDFParse } from "pdf-parse";
 import { DEFAULT_RESUME_PATH, env } from "@/lib/env";
 import type { RawDocument } from "@/lib/chunking";
 
@@ -19,6 +18,7 @@ export async function collectResumeDocuments(path = env("RESUME_PATH", DEFAULT_R
 
 async function extractPdfText(filePath: string) {
   const buffer = await fs.readFile(filePath);
+  const { PDFParse } = await import("pdf-parse");
   const parser = new PDFParse({ data: buffer });
   try {
     const parsed = await parser.getText();
