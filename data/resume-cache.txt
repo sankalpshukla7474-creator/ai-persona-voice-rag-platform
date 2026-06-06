@@ -1,0 +1,59 @@
+﻿Sankalp Shukla
+[phone available on submission] | [email available on submission] | Ghaziabad, UP (Remote Open) | linkedin.com/in/sankalp212 |
+github.com/sankalpshukla7474-creator | Portfolio
+Professional Summary
+AI/ML Engineer building production LLM pipelines, RAG systems, and agentic workflows. Experienced in LangChain, Llama 3,
+PEFT/LoRA fine-tuning, n8n automation, PyTorch, and AWS deployment. AWS AI + Cloud Certified. 500+ DSA. Seeking AI/ML/LLM
+internships.
+Technical Skills
+LLMs & Agents: LangChain, LangGraph, RAG, Llama 3 (8B/13B), GPT-4, BERT, Sentence-BERT, PEFT/LoRA, Fine-tuning, Prompt
+Engineering, Function/Tool Calling, Claude API, OpenAI API, Agentic Workflows
+ML & DL: PyTorch, TensorFlow, Scikit-learn, XGBoost, CNN/RNN/LSTM, Transfer Learning, Feature Engineering, MLflow, Weights &
+Biases, Optuna
+Retrieval & Search: Pinecone, Chroma, Weaviate, Dense Retrieval, Semantic Search, Re-ranking, Query Expansion, MMR
+Automation & APIs: n8n, REST Webhooks, CRM Automation, WhatsApp/Twilio, FastAPI, Flask, Docker, CI/CD
+Cloud & DB: AWS (EC2, S3, Lambda, CloudWatch), PostgreSQL, Redis, MongoDB, Supabase, Firebase, Vercel
+Evaluation: BLEU, ROUGE, AUC-ROC, F1, Precision/Recall, MRR, NDCG, Top-K Accuracy
+Languages: Python (Advanced), SQL, Java, Bash/Shell, JavaScript
+Experience
+Junior AI Engineer Intern April 2026 â€“ Present
+Globe Spring Solutions Remote, India
+â€“ Architected end-to-end LLM pipelines using LangChain, LangGraph, Llama 3 (8B/13B), and RAG; improved processing efficiency 35%
+handling 50,000+ documents daily.
+â€“ Fine-tuned Llama 3 with PEFT/LoRA; reduced inference latency 60% (500msâ†’200ms); deployed on AWS EC2 with 99.9% uptime.
+â€“ Engineered semantic search using Sentence-BERT + Pinecone; optimized latency 85% (800msâ†’120ms) achieving 91% ranking precision.
+â€“ Built n8n workflow automation with REST webhooks, third-party API integration, CRM automation, and automated reporting pipelines;
+reduced manual processes âˆ¼40%.
+â€“ Implemented BLEU (92%), ROUGE, and custom relevance scoring frameworks across 15+ ML experiments; achieved 18% performance
+improvement via Optuna hyperparameter tuning.
+Machine Learning Engineer Intern February 2026 â€“ April 2026
+Globe Spring Solutions India
+â€“ Built end-to-end ML pipelines (EDA, feature engineering, training, deployment) using Python, Pandas, Scikit-learn; 88%+ accuracy on
+real business datasets; tracked with MLflow.
+â€“ Integrated model outputs into FastAPI decision workflows and Power BI dashboards; automated reporting pipelines for cross-functional
+teams.
+Key Projects
+AI Resume Builder & Workflow Automation | n8n, OpenRouter, Claude API, LangChain, Google Drive
+â€“ End-to-end AI pipeline: JD parsing â†’ prompt-engineered resume tailoring â†’ ATS-optimized PDF generation â†’ Google Drive logging;
+cost-gated multi-model routing (GPT-4o-mini, Claude Haiku, Claude Sonnet).
+Judicial Precedent & Case Management RAG System | LangChain, Llama 3 70B, Pinecone, FastAPI, Docker, AWS
+â€“ Production RAG pipeline: 94.2% semantic similarity, 81% latency reduction (800msâ†’150ms), BLEU 92%, ROUGE-1 0.88; hallucination
+detection + 0â€“100% trust scoring; deployed AWS EC2 + W&B monitoring.
+Generative AI Healthcare Chatbot | LangChain, GPT-4, BERT, Pinecone, AWS Lambda, Redis
+â€“ 50+ turn memory chatbot (coherence >92%); intent F1: 0.94, Medical NER: 91%; 87% user satisfaction; serverless AWS Lambda
+handling 1,000+ concurrent users at 0.8s response.
+Endpoint Security Anomaly Detection | Scikit-learn, TensorFlow, FastAPI, Docker, AWS, CI/CD
+â€“ Ensemble model (Isolation Forest + Random Forest) on 500K+ events: AUC-ROC 0.96, Precision 0.94, Recall 0.92; 1,000+ events/sec
+inference, p99 <100ms; real-time W&B drift alerting.
+Achievements
+Best Innovation Award â€“ Build With Gemini Hackathon, Delhi University (Team Lead), Nov 2025
+1st Runner-Up â€“ AI Global Summit 2K26, GLA University Noida (Team Lead), Jan 2026
+1st Runner-Up â€“ Vibe Coding Hackathon, BMIET Sonipat (Team Lead), Oct 2025
+Problem Solving: 500+ DSA problems solved (LeetCode, CodeChef, HackerRank)
+Certifications
+AWS Certified AI Practitioner (AIF-C01) | AWS Certified Cloud Practitioner (CLF-C02) | Cisco Introduction to Modern AI
+Education
+KIET Group of Institutions (AKTU), Ghaziabad â€“ Delhi NCR Feb 2023 â€“ Jul 2027
+B.Tech â€“ Computer Science Engineering Aggregate: 80% (â‰ˆ3.5/4.0 GPA)
+
+-- 1 of 1 --
