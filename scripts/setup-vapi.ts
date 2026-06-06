@@ -26,8 +26,9 @@ if (!process.env.VAPI_API_KEY) {
   process.exit(0);
 }
 
-const response = await fetch("https://api.vapi.ai/assistant", {
-  method: "POST",
+const assistantId = process.env.VAPI_ASSISTANT_ID;
+const response = await fetch(`https://api.vapi.ai/assistant${assistantId ? `/${assistantId}` : ""}`, {
+  method: assistantId ? "PATCH" : "POST",
   headers: {
     Authorization: `Bearer ${process.env.VAPI_API_KEY}`,
     "Content-Type": "application/json"

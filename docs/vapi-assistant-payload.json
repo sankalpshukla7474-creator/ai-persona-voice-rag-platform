@@ -30,7 +30,7 @@
           }
         },
         "server": {
-          "url": "https://ai-persona-voice-rag-platform-e5wj1salb.vercel.app/api/voice/tools"
+          "url": "https://ai-persona-voice-rag-platform.vercel.app/api/voice/tools"
         }
       },
       {
@@ -57,7 +57,7 @@
           }
         },
         "server": {
-          "url": "https://ai-persona-voice-rag-platform-e5wj1salb.vercel.app/api/voice/tools"
+          "url": "https://ai-persona-voice-rag-platform.vercel.app/api/voice/tools"
         }
       },
       {
@@ -90,7 +90,7 @@
           }
         },
         "server": {
-          "url": "https://ai-persona-voice-rag-platform-e5wj1salb.vercel.app/api/voice/tools"
+          "url": "https://ai-persona-voice-rag-platform.vercel.app/api/voice/tools"
         }
       }
     ]
