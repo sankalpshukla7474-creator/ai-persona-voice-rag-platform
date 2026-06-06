@@ -12,6 +12,7 @@ import { bookInterview, getAvailability } from "@/lib/calendar";
 import { localFallbackAnswer } from "@/lib/local-rag";
 import { availableChatModels, hasChatModel } from "@/lib/model-provider";
 import { contextBlock, personaSystemPrompt } from "@/lib/persona";
+import { recruiterAnswer } from "@/lib/recruiter-answers";
 import { retrieveProfile } from "@/lib/retrieval";
 
 export const runtime = "nodejs";
@@ -34,19 +35,15 @@ export async function POST(request: Request) {
   const body = await request.json();
   const messages = (body.messages ?? []) as UIMessage[];
   const lastUserText = extractLastUserText(messages);
+  const guardedAnswer = recruiterAnswer(lastUserText);
+
+  if (guardedAnswer) {
+    return textResponse(messages, guardedAnswer, "recruiter-answer");
+  }
 
   if (!hasChatModel()) {
     const answer = await localFallbackAnswer(lastUserText || "Sankalp Shukla AI engineer profile");
-    const stream = createUIMessageStream({
-      originalMessages: messages,
-      execute: ({ writer }) => {
-        const id = "local-fallback";
-        writer.write({ type: "text-start", id });
-        writer.write({ type: "text-delta", id, delta: answer });
-        writer.write({ type: "text-end", id });
-      }
-    });
-    return createUIMessageStreamResponse({ stream });
+    return textResponse(messages, answer, "local-fallback");
   }
 
   const retrieval = await retrieveProfile(lastUserText || "Sankalp Shukla AI engineer profile", 4);
@@ -103,10 +100,13 @@ ${needsGithubEvidence && !hasGithubEvidence ? "The user asked about GitHub, but 
     answer = await localFallbackAnswer(lastUserText || "Sankalp Shukla AI engineer profile");
   }
 
+  return textResponse(messages, answer, crypto.randomUUID());
+}
+
+function textResponse(messages: UIMessage[], answer: string, id: string) {
   const stream = createUIMessageStream({
     originalMessages: messages,
     execute: ({ writer }) => {
-      const id = crypto.randomUUID();
       writer.write({ type: "text-start", id });
       writer.write({ type: "text-delta", id, delta: answer });
       writer.write({ type: "text-end", id });
