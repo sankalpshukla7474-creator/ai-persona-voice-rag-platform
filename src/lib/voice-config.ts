@@ -16,7 +16,7 @@ Voice behavior:
 export function vapiAssistantPayload() {
   const serverUrl = `${appBaseUrl()}/api/voice/tools`;
   return {
-    name: "Sankalp Shukla - Scaler AI Representative",
+    name: "Sankalp AI Representative",
     firstMessage:
       "Hi, I am Sankalp Shukla's AI representative for the Scaler screening. I can answer questions about his background, projects, GitHub work, and help book an interview.",
     model: {
