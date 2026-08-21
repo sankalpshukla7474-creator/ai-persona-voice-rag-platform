@@ -59,7 +59,7 @@ export async function schedulingAnswer(messages: UserTextMessage[]) {
     attendeeName,
     attendeeEmail,
     start: requestedStart.toISOString(),
-    notes: "AI Engineer Intern interview"
+    notes: "Professional meeting scheduled by AI representative"
   });
 
   if (result.confirmed) {

@@ -70,7 +70,7 @@ export async function localFallbackAnswer(query: string) {
       return `${index + 1}. [${label}] ${summarize(snippet.content)}`;
     }),
     "",
-    "This proves the retrieval and UI path are working locally. Add real API/database/calendar/Vapi credentials before final public submission."
+    "This proves the retrieval and UI path are working locally. Add real API, database, calendar, and Vapi credentials before public deployment."
   ].join("\n");
 }
 

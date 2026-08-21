@@ -1,7 +1,7 @@
 {
-  "name": "scaler-ai-persona",
+  "name": "ai-persona-voice-rag-platform",
   "version": "1.0.0",
-  "description": "AI persona voice and chat assignment for Scaler.",
+  "description": "Grounded AI representative with voice, RAG, calendar availability, and controlled meeting scheduling.",
   "private": true,
   "scripts": {
     "dev": "next dev",

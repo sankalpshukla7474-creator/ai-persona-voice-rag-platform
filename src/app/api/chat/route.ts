@@ -89,7 +89,7 @@ ${needsGithubEvidence && !hasGithubEvidence ? "The user asked about GitHub, but 
           }),
           bookInterview: tool({
             description:
-              "Book a confirmed 30 minute Scaler interview after collecting attendee name, email, and chosen ISO start time.",
+              "Book a confirmed 30 minute meeting after collecting attendee name, email, and chosen ISO start time.",
             inputSchema: bookingInput,
             execute: async (input) => bookInterview(input)
           })

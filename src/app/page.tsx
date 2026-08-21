@@ -15,7 +15,7 @@ import { FormEvent, useMemo, useState } from "react";
 import { ChatMessage } from "@/components/chat-message";
 
 const prompts = [
-  "Why is Sankalp a strong fit for the AI Engineer Intern role?",
+  "What strengths does Sankalp bring to an AI engineering team?",
   "What projects has Sankalp built with AI agents or automation?",
   "What public GitHub repositories should I look at?",
   "Can you help schedule a 30 minute interview this week?"
@@ -57,14 +57,14 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl flex-col gap-5 px-5 py-6 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="mb-2 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-              Scaler screening persona
+              Agentic AI portfolio project
             </p>
             <h1 className="max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">
               Sankalp Shukla AI Representative
             </h1>
             <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--muted)]">
-              A concise chat and voice backend for recruiters to review Sankalp&apos;s
-              work, projects, technical fit, and real interview availability.
+              A grounded chat and voice agent for exploring Sankalp&apos;s work,
+              projects, technical capabilities, and real meeting availability.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-2 text-sm md:w-[360px]">
@@ -113,7 +113,7 @@ export default function Home() {
                 <Bot className="mx-auto mb-4 text-[var(--accent)]" size={42} />
                 <h2 className="text-2xl font-semibold">Ask like a hiring panel.</h2>
                 <p className="mt-3 leading-7 text-[var(--muted)]">
-                  The assistant gives short, recruiter-ready answers and uses
+                  The assistant gives short, evidence-grounded answers and uses
                   calendar tools when interview scheduling is requested.
                 </p>
               </div>

@@ -6,7 +6,7 @@ import { localFallbackAnswer } from "@/lib/local-rag";
 import { availableChatModels, hasChatModel } from "@/lib/model-provider";
 
 const goldenQuestions = [
-  "Why is Sankalp a good fit for the Scaler AI Engineer Intern role?",
+  "What strengths does Sankalp bring to an AI engineering team?",
   "What AI or automation projects has Sankalp built?",
   "What GitHub repositories show Sankalp's engineering ability?",
   "What would Sankalp improve in his projects with more time?",

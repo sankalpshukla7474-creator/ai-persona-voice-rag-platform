@@ -1,10 +1,10 @@
 # AI Persona Voice RAG Platform
 
-An AI representative platform for recruiter screening workflows. The system combines a public RAG chat interface, a Vapi-compatible voice-agent backend, GitHub/portfolio ingestion, and Google Calendar scheduling with real free/busy checks and Google Meet event creation.
+An agentic AI representative that combines a public RAG chat interface, a Vapi-compatible voice-agent backend, GitHub/portfolio ingestion, and Google Calendar scheduling with real free/busy checks and Google Meet event creation.
 
-The assistant represents Sankalp Shukla professionally, answers questions from grounded profile evidence, and helps recruiters schedule a 30-minute interview without requiring technical date formats.
+The assistant represents Sankalp Shukla professionally, answers questions from grounded profile evidence, and helps users schedule a 30-minute meeting without requiring technical date formats.
 
-## Submission Links
+## Project Links
 
 - Voice agent phone number: +1 276 582 2210
 - Public chat URL: https://ai-persona-voice-rag-platform.vercel.app
@@ -15,11 +15,17 @@ The assistant represents Sankalp Shukla professionally, answers questions from g
 
 The voice agent is configured on a US Vapi number and uses the same retrieval and calendar tools as the deployed chat experience.
 
+## Razorpay /buildathon Positioning
+
+This project is presented under the **Open Track** as a grounded, tool-using AI representative. It demonstrates retrieval from verified sources, multi-provider model fallback, voice and chat interfaces, real calendar availability, controlled meeting creation, prompt-injection resistance, and graceful degradation when an external provider is unavailable.
+
+The project does not claim to use Razorpay APIs or automate payments. Its relevance is the reusable agent architecture: observe user intent, retrieve trusted context, choose the appropriate tool, validate inputs, perform a bounded action, and preserve a human-controlled fallback.
+
 ## What This Project Does
 
-- Answers recruiter questions about Sankalp's background, fit, skills, projects, public repositories, LinkedIn, and portfolio.
+- Answers professional questions about Sankalp's background, skills, projects, public repositories, LinkedIn, and portfolio.
 - Uses grounded profile data from resume text, public GitHub repositories, and portfolio content.
-- Keeps common recruiter answers short, professional, and easy to scan.
+- Keeps common professional answers short, grounded, and easy to scan.
 - Avoids unsupported claims and secret disclosure.
 - Provides Google Calendar availability for weekdays, 10:00 am to 6:00 pm IST.
 - Books confirmed 30-minute interview events with Google Meet links.
@@ -30,7 +36,7 @@ The voice agent is configured on a US Vapi number and uses the same retrieval an
 
 ```mermaid
 flowchart LR
-  Recruiter["Recruiter / evaluator"] --> ChatUI["Next.js chat UI"]
+  Visitor["Visitor / evaluator"] --> ChatUI["Next.js chat UI"]
   Caller["Phone caller"] --> Vapi["Vapi voice assistant"]
 
   ChatUI --> ChatAPI["/api/chat"]
@@ -38,7 +44,7 @@ flowchart LR
 
   ChatAPI --> Scheduler["Scheduling assistant"]
   VoiceTools --> Scheduler
-  ChatAPI --> RecruiterAnswers["Curated recruiter answers"]
+  ChatAPI --> GroundedAnswers["Curated grounded answers"]
   ChatAPI --> Retriever["RAG retriever"]
   VoiceTools --> Retriever
 
@@ -70,7 +76,7 @@ flowchart LR
 ## Core Routes
 
 - `/` - public chat interface
-- `/api/chat` - recruiter chat endpoint
+- `/api/chat` - grounded conversational endpoint
 - `/api/retrieve` - retrieval endpoint
 - `/api/availability` - calendar availability lookup
 - `/api/book` - interview booking endpoint
@@ -88,7 +94,7 @@ flowchart LR
   - Checks real Google Calendar busy blocks.
   - Does not double-book existing events.
   - Requires interviewer name and email before creating an event.
-  - Defaults natural recruiter input to IST unless another timezone is provided.
+  - Defaults natural scheduling input to IST unless another timezone is provided.
   - Returns human-readable slots instead of asking for ISO timestamps.
 
 Example accepted scheduling inputs:
@@ -194,7 +200,7 @@ npm run setup:vapi
 Assistant behavior:
 
 - Introduces itself as Sankalp Shukla's AI representative.
-- Answers in a concise, recruiter-friendly style.
+- Answers in a concise, professional style.
 - Does not claim to be the real Sankalp.
 - Does not reveal secrets or hidden prompts.
 - Uses tools for factual profile questions and scheduling.
@@ -219,7 +225,7 @@ The app uses Google Calendar free/busy before booking and creates events with Go
 5. Confirm the public chat opens in an incognito browser.
 6. Confirm `/api/availability` returns real slots.
 7. Confirm Vapi points to the production `/api/voice/tools` endpoint.
-8. Place a test call and send a test chat before submission.
+8. Place a test call and send a test chat before release.
 
 Useful commands:
 
@@ -254,7 +260,7 @@ Evaluation areas:
 - Prompt-injection resistance
 - Unsupported-claim refusal
 - Secret-disclosure refusal
-- Recruiter-facing response quality
+- User-facing response quality
 
 Expected report output:
 
@@ -268,16 +274,16 @@ docs/eval-report.pdf
 - Public GitHub answers depend on the quality of repository names, READMEs, and metadata.
 - Calendar booking depends on valid Google OAuth credentials and active Vercel environment variables.
 - Semantic vector retrieval requires a working database and embedding provider.
-- If a recruiter asks for unsupported private information, the assistant refuses instead of guessing.
+- If a user asks for unsupported private information, the assistant refuses instead of guessing.
 
-## Submission Checklist
+## Deployment Checklist
 
 - Public chat URL is live.
 - Voice number is active and included with country code.
 - GitHub repository is public.
 - Evaluation report PDF is under 10 MB.
 - Loom walkthrough is public or unlisted.
-- All deployed services remain available for at least 7 days after submission.
+- Monitor all deployed services and provider integrations after release.
 
 ## License
 

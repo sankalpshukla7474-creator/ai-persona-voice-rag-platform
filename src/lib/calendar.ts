@@ -62,14 +62,14 @@ export async function bookInterview(input: z.infer<typeof bookingSchema>) {
     conferenceDataVersion: 1,
     sendUpdates: "all",
     requestBody: {
-      summary: "Scaler interview with Sankalp Shukla",
+      summary: "Meeting with Sankalp Shukla",
       description: `Booked by Sankalp's AI representative.\n\n${parsed.notes ?? ""}`,
       attendees: [{ email: parsed.attendeeEmail, displayName: parsed.attendeeName }],
       start: { dateTime: start.toISOString(), timeZone: env("BOOKING_TIMEZONE", DEFAULT_TIMEZONE) },
       end: { dateTime: end.toISOString(), timeZone: env("BOOKING_TIMEZONE", DEFAULT_TIMEZONE) },
       conferenceData: {
         createRequest: {
-          requestId: `sankalp-scaler-${Date.now()}`
+          requestId: `sankalp-ai-persona-${Date.now()}`
         }
       }
     }
