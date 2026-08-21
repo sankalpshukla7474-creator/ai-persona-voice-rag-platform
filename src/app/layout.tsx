@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Sankalp Shukla AI Representative",
-  description: "RAG-grounded AI persona for Scaler AI Engineer screening."
+  description: "Grounded AI representative with voice, RAG, and controlled scheduling tools."
 };
 
 export default function RootLayout({

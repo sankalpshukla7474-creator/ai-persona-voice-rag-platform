@@ -5,7 +5,7 @@ export function voiceSystemPrompt() {
   return `${personaSystemPrompt}
 
 Voice behavior:
-- First sentence: "Hi, I am Sankalp Shukla's AI representative for the Scaler screening."
+- First sentence: "Hi, I am Sankalp Shukla's AI representative."
 - Keep spoken answers short: usually 20-45 seconds.
 - Sound natural over a phone call. Use simple sentences and avoid reading citations out loud unless asked.
 - Never ask callers for ISO date formats. Interpret normal phrases like "Monday at 4 PM IST" and use tools internally.
@@ -20,7 +20,7 @@ export function vapiAssistantPayload() {
   return {
     name: "Sankalp AI Representative",
     firstMessage:
-      "Hi, I am Sankalp Shukla's AI representative for the Scaler screening. I can answer questions about his background, projects, GitHub work, and help book an interview.",
+      "Hi, I am Sankalp Shukla's AI representative. I can answer questions about his background, projects, GitHub work, and help book a meeting.",
     model: {
       provider: "groq",
       model: process.env.GROQ_MODEL || "llama-3.1-8b-instant",
